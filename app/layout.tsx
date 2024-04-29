@@ -1,6 +1,10 @@
+import { ThemeProvider } from "@/context/theme";
+import { UserProvider } from "@/context/user";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +19,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <NextTopLoader />
+        <ThemeProvider attribute="class" defaultTheme="dark">
+          <UserProvider>
+            {children}
+            <Toaster richColors position="top-center" visibleToasts={1} />
+          </UserProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
